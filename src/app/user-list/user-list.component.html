@@ -3,15 +3,15 @@
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users$ | async">
           <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
+          <td><a routerLink="/users/{{user.id}}">{{ user.name }}</a></td>
           <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
         </tr>
       </tbody>

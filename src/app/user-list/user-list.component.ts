@@ -1,29 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../model/user';
-import { UserService } from '../service/user.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../models/user';
+import { UserService } from '../services/user/user.service';
 
 @Component({
-  selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
+  users$: Observable<User[]>;
 
-  users: User[];
-
-  constructor(private userService: UserService) {
-
+  constructor(userService: UserService) {
+    this.users$ = userService.findAll();
   }
-
-  ngOnInit() {
-    this.userService.findAll().subscribe(data => {
-      this.users = data;
-    });
-  }
-
-  // ngIdOnInit(){
-  //   this.userService.find().subscribe(data => {
-  //     this.users[i] = data;
-  //   });
-  // }
 }

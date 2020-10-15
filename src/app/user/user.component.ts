@@ -1,27 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../model/user';
-// import { UserService } from '../service/user.service'; //comes from here currently.
-import {ActivatedRouteComponent} from '../activatedRoute/user.service';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { User } from '../models/user';
+import { UserService } from '../services/user/user.service';
+
 @Component({
-  selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
+  user$: Observable<User>;
 
-  user: User;
-
-  // constructor(private userService: UserService) {
-      
-  // }
-  constructor(private userService: ActivatedRouteComponent) {
-      
+  constructor(route: ActivatedRoute, userService: UserService) {
+    this.user$ = route.params.pipe(
+      map(params => params.id),
+      switchMap(id => userService.find(id))
+    );
   }
-
-  ngOnInit() {
-    this.userService.find().subscribe(data => {
-      this.user = data;
-    });
-  }
-  
 }
